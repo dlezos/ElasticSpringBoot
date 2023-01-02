@@ -1,0 +1,30 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Elasticsearch security features have been automatically configured!
+✅ Authentication is enabled and cluster connections are encrypted.
+
+ℹ️  Password for the "elastic" user (reset with `bin/elasticsearch-reset-password -u elastic`):
+  nP+GFBhe=W7WY9=Ny4O1
+
+ℹ️  HTTP CA certificate SHA-256 fingerprint:
+  204c723e7f119b088e847990f2928015f22d034883b25400566860eb4b69333e
+
+ℹ️  Configure Kibana to use this cluster:
+• Run Kibana and click the configuration link in the terminal when Kibana starts.
+• Copy the following enrollment token and paste it into Kibana in your browser (valid for the next 30 minutes):
+  eyJ2ZXIiOiI4LjUuMyIsImFkciI6WyIxNzIuMTguMC4yOjkyMDAiXSwiZmdyIjoiMjA0YzcyM2U3ZjExOWIwODhlODQ3OTkwZjI5MjgwMTVmMjJkMDM0ODgzYjI1NDAwNTY2ODYwZWI0YjY5MzMzZSIsImtleSI6IjlkNFljNFVCRUZCS3NTTTV3eHFEOmRSN3pkVnZBVDQtRFNSaUhuY3o2VFEifQ==
+
+ℹ️ Configure other nodes to join this cluster:
+• Copy the following enrollment token and start new Elasticsearch nodes with `bin/elasticsearch --enrollment-token <token>` (valid for the next 30 minutes):
+  eyJ2ZXIiOiI4LjUuMyIsImFkciI6WyIxNzIuMTguMC4yOjkyMDAiXSwiZmdyIjoiMjA0YzcyM2U3ZjExOWIwODhlODQ3OTkwZjI5MjgwMTVmMjJkMDM0ODgzYjI1NDAwNTY2ODYwZWI0YjY5MzMzZSIsImtleSI6Ijk5NFljNFVCRUZCS3NTTTV3eHFTOmFpeFhFNXhHUzlHMjB1bXFHQUpUeVEifQ==
+
+  If you're running in Docker, copy the enrollment token and run:
+  `docker run -e "ENROLLMENT_TOKEN=<token>" docker.elastic.co/elasticsearch/elasticsearch:8.5.3`
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+i Kibana has not been configured.
+
+Go to http://0.0.0.0:5601/?code=910766 to get started.
+
+
+
+docker run -e "ENROLLMENT_TOKEN=eyJ2ZXIiOiI4LjUuMyIsImFkciI6WyIxNzIuMTguMC4yOjkyMDAiXSwiZmdyIjoiMTFjNjNkODY2NmRjZDM2ZTAxNTk4NDVlMWUyNTJiNzJiOTVjOGY2MGNmM2JkYmFmZmNiOTJkZDAzZGE4OTBhMSIsImtleSI6IjI2ZjRjb1VCWVVydUFpMFFqeVBYOnIzSHJiRE8zUmJTTHRUUzJya0oyYVEifQ==" docker.elastic.co/elasticsearch/elasticsearch:8.5.3
