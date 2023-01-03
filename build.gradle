@@ -14,17 +14,24 @@ repositories {
 }
 
 dependencies {
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	//implementation 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 	implementation 'org.springframework.data:spring-data-elasticsearch'
 	implementation 'org.springframework.kafka:spring-kafka'
     implementation 'com.google.protobuf:protobuf-bom:3.21.12'
 	implementation 'com.google.protobuf:protobuf-java:3.21.12'
-	implementation 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//implementation 'org.json:json:20220924'
+	//implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'org.json:json:20220924'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

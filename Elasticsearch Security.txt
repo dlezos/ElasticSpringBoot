@@ -28,3 +28,8 @@ Go to http://0.0.0.0:5601/?code=910766 to get started.
 
 
 docker run -e "ENROLLMENT_TOKEN=eyJ2ZXIiOiI4LjUuMyIsImFkciI6WyIxNzIuMTguMC4yOjkyMDAiXSwiZmdyIjoiMTFjNjNkODY2NmRjZDM2ZTAxNTk4NDVlMWUyNTJiNzJiOTVjOGY2MGNmM2JkYmFmZmNiOTJkZDAzZGE4OTBhMSIsImtleSI6IjI2ZjRjb1VCWVVydUFpMFFqeVBYOnIzSHJiRE8zUmJTTHRUUzJya0oyYVEifQ==" docker.elastic.co/elasticsearch/elasticsearch:8.5.3
+
+C:\Java\jdk-19.0.1\bin\keytool.exe -genkeypair -alias lezos -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore lezos.p12 -validity 3650
+password=D1m1tr1s
+C:\Java\jdk-19.0.1\bin\keytool.exe -genkeypair -alias lezos -keyalg RSA -keysize 2048 -keystore lezos.jks -validity 3650
+password=D1m1tr1s
