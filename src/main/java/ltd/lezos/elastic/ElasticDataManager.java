@@ -8,10 +8,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ElasticDataManager {
+public class ElasticDataManager implements ElasticConnection {
     @Autowired
     ElasticsearchOperations operations;
 
+    @Override
     public void indexData(IdentityGroup identityGroup) {
         //Index in identitygroup AND biographic - traveldocument
         operations.save(identityGroup);
@@ -19,7 +20,8 @@ public class ElasticDataManager {
         identityGroup.getIdentities().forEach(i -> operations.save(i.getTravelDocumentData()));
     }
 
-    public void indexData(List<IdentityGroup> identityGroupList) {
-        identityGroupList.forEach(this::indexData);
-    }
+//    @Override
+//    public void indexData(List<IdentityGroup> identityGroupList) {
+//        identityGroupList.forEach(this::indexData);
+//    }
 }

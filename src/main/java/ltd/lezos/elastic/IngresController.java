@@ -33,7 +33,8 @@ public class IngresController {
     ElasticsearchOperations operations;
 
     @Autowired
-    ElasticDataManager elasticDataManager;
+    ElasticConnectorFactory elasticConnectorFactory;
+    //ElasticDataManager elasticDataManager;
 
     @GetMapping("/alive")
     public String alive(){
@@ -80,8 +81,7 @@ public class IngresController {
         return "OK\n"+new JSONObject(identityGroup).toString(4);
     }
 
-    @PostMapping("/elastic/{instances}")
-    public String postElastic(@PathVariable Integer instances) {
+    protected List<IdentityGroup> produceIdentityGroups(Integer instances){
         List<IdentityGroup> identityGroupList = new ArrayList<>(instances);
         for(int i=0; i<instances; i++) {
             if(i%1000==0) {
@@ -145,10 +145,22 @@ public class IngresController {
                     ))
             ));
         }
-        elasticDataManager.indexData(identityGroupList);
+        return identityGroupList;
+    }
+
+    @PostMapping("/elastic/{instances}")
+    public String postElastic(@PathVariable Integer instances) {
+        List<IdentityGroup> identityGroupList = produceIdentityGroups(instances);
+        elasticConnectorFactory.connection(ElasticConnectorFactory.Transport.DIRECT).indexData(identityGroupList);
 //        operations.save(identityGroupList);
 //        JSONObject json = new JSONObject(identityGroupList.get(0));
 //        return "OK-"+instances+"\n"+json.toString(4);
+        return "OK-"+instances;
+    }
+
+    @PostMapping("/kafka/{instances}")
+    public String postKafka(@PathVariable Integer instances) {
+        elasticConnectorFactory.connection(ElasticConnectorFactory.Transport.KAFKA).indexData(produceIdentityGroups(instances));
         return "OK-"+instances;
     }
 }
