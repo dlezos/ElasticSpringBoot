@@ -6,6 +6,7 @@ import eu.europa.schengen.cir.commons.IdentityType;
 import eu.europa.schengen.cir.commons.TravelDocumentDataType;
 import jakarta.persistence.OneToMany;
 import ltd.lezos.elastic.domain.*;
+import ltd.lezos.elastic.helper.PreProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.client.elc.QueryBuilders;
 import org.springframework.data.elasticsearch.client.erhlc.NativeSearchQueryBuilder;
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.util.*;
 
+import static ltd.lezos.elastic.helper.PreProcessor.*;
 import static ltd.lezos.elastic.helper.UMFHelper.multilingualText;
 import static ltd.lezos.elastic.helper.UMFHelper.freeText;
 import static org.springframework.data.elasticsearch.client.elc.QueryBuilders.matchQuery;
@@ -30,10 +32,16 @@ public class IngresController {
     @Autowired
     ElasticsearchOperations operations;
 
+    @Autowired
+    ElasticDataManager elasticDataManager;
+
     @GetMapping("/alive")
     public String alive(){
         return "I am alive now "+System.currentTimeMillis();
     }
+
+    private PreProcessor.Name[] firstnames = PreProcessor.readNames("./names_comb.csv");
+    private PreProcessor.Name[] surnames = PreProcessor.readNames("./surnames_comb.csv");
 
     @GetMapping("/testProtos")
     public String testProtos() {
@@ -76,6 +84,9 @@ public class IngresController {
     public String postElastic(@PathVariable Integer instances) {
         List<IdentityGroup> identityGroupList = new ArrayList<>(instances);
         for(int i=0; i<instances; i++) {
+            if(i%1000==0) {
+                System.out.println(i);
+            }
             Long minute = System.currentTimeMillis()/1000/60/60;
             identityGroupList.add(new IdentityGroup(
                     "0001-"+minute.toString()+"-"+i,
@@ -84,58 +95,60 @@ public class IngresController {
                             new BiographicData(
                                     minute.toString()+"-"+i,
                                     "0001",
-                                    "000"+i,
-                                    new Calendar.Builder().setDate(1971,5, 1).build().getTime(),
-                                    "Lezos",
-                                    "Dimitris",
-                                    "Dimitris Lezos",
-                                    "Vasilios",
-                                    "Lezos",
-                                    "Eirini",
-                                    "Lezou",
-                                    "Douros",
-                                    "Mits Jim Freddy",
-                                    "MALE",
-                                    "GRE",
-                                    "GRE",
-                                    "Jim Lezos",
+                                    randomCountry(),
+                                    randomDate(100, 0),
+                                    randomName(surnames),
+                                    randomName(firstnames),
+                                    null,
+                                    randomName(firstnames),
+                                    randomName(surnames),
+                                    randomName(firstnames),
+                                    randomName(surnames),
+                                    randomName(surnames),
+                                    randomName(firstnames),
+                                    isPercent(48) ? "M" : "F",
+                                    randomCountry(),
+                                    randomCountry(),
+                                    randomName(firstnames),
                                     "Athens",
-                                    "Lezos",
-                                    ""
-                            ),
+                                    randomName(surnames),
+                                    randomCountry()
+                            ).normalize(),
                             Arrays.asList(new TravelDocumentData(
-                                    "GRE542588",
+                                    randomCountry()+randomNumber(),
                                     "0001",
-                                    "GRE542588",
-                                    new Calendar.Builder().setDate(2020,1, 1).build().getTime(),
-                                    "0031",
-                                    new Calendar.Builder().setDate(2023,12, 31).build().getTime(),
-                                    "Ministry of foreign affairs GRE"
+                                    randomCountry()+randomNumber(),
+                                    randomDate(5, 0),
+                                    randomCountry(),
+                                    randomDate(2, 5),
+                                    "Ministry of foreign affairs "+randomCountry()
                             ))
                     )),
                     Arrays.asList(new Biometric(
-                            "isIdentityRecordID",
+                            randomCountry()+randomNumber(),
                             Arrays.asList(new BiometricData(
-                                    "001-"+minute.toString()+"-"+i+"-1",
-                                    "0002",
-                                    "1",
-                                    90,
-                                    null,
-                                    Boolean.TRUE
+                                            "001-"+minute.toString()+"-"+randomNumber()+"-1",
+                                            "0002",
+                                            "1",
+                                            randomNumber(60L, 100L).intValue(),
+                                            null,
+                                            isPercent(90)
                                     ),
                                     new BiometricData(
-                                            "001-"+minute.toString()+"-"+i+"-2",
+                                            "001-"+minute.toString()+"-"+randomNumber()+"-2",
                                             "0002",
                                             "2",
-                                            78,
+                                            randomNumber(60L, 100L).intValue(),
                                             null,
-                                            Boolean.TRUE
+                                            isPercent(90)
                                     ))
                     ))
             ));
         }
-        operations.save(identityGroupList);
-        JSONObject json = new JSONObject(identityGroupList.get(0));
-        return "OK-"+instances+"\n"+json.toString(4);
+        elasticDataManager.indexData(identityGroupList);
+//        operations.save(identityGroupList);
+//        JSONObject json = new JSONObject(identityGroupList.get(0));
+//        return "OK-"+instances+"\n"+json.toString(4);
+        return "OK-"+instances;
     }
 }

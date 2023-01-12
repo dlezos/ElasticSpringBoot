@@ -6,10 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
+import ltd.lezos.elastic.helper.PreProcessor;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.io.Serializable;
 import java.util.Date;
 
+import static ltd.lezos.elastic.helper.PreProcessor.isPercent;
+
+@Document(indexName = "biographicdata")
 @Entity
 @Getter
 @Setter
@@ -37,4 +42,12 @@ public class BiographicData implements Serializable {
     String placeOfBirth;
     String familyNameAtBirth;
     String otherNationality;
+
+    public BiographicData normalize() {
+        fullName = firstName + " " + familyName;
+        if (isPercent(98)) {
+            familyNameOfFather = familyName;
+        }
+        return this;
+    }
 }
