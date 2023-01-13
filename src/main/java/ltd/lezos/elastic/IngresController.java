@@ -163,4 +163,10 @@ public class IngresController {
         elasticConnectorFactory.connection(ElasticConnectorFactory.Transport.KAFKA).indexData(produceIdentityGroups(instances));
         return "OK-"+instances;
     }
+
+    @PostMapping("/flink/execute")
+    public String postFlink() {
+        FlinkDataManager.execute();
+        return "OK";
+    }
 }

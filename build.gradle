@@ -31,6 +31,11 @@ dependencies {
 	//implementation 'org.springframework.kafka:spring-kafka:2.7.8'
 	//implementation 'org.springframework.kafka:spring-kafka'
 	//implementation 'org.apache.kafka:kafka-streams:2.7.1'
+	implementation 'org.apache.flink:flink-core:1.15.1'
+	implementation 'org.apache.flink:flink-clients:1.15.1'
+	implementation 'org.apache.flink:flink-connector-kafka:1.15.1'
+	implementation 'org.apache.flink:flink-streaming-java:1.15.1'
+	implementation 'org.apache.flink:flink-connector-elasticsearch7:1.15.2'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
